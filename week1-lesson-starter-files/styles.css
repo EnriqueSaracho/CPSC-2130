@@ -1,0 +1,27 @@
+html {
+    font-family: sans-serif;
+    line-height: 1.7;
+}
+body {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+header {
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+h1 {
+    color: white;
+    max-width: 800px;
+    font-size: 4rem; /* rem proportional to the font size on the page. By default, 1 rem = 16 px */
+}
+section {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
