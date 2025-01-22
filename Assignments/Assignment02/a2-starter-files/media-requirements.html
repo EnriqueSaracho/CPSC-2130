@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height:1.5;
+
+            max-width:900px;
+            margin:auto;
+        }
+
+        #number {
+            display:block;
+            min-width:20rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Media Requirements</h1>
+
+    <h2>Instructions</h2>
+
+    <form onsubmit="handleForm(event)" id="form">
+        <label>
+            Enter your student number to get your unique media requirements! <b><u>Please take care to type your number correctly.</u></b> Your browser must be up to date in order for this application to work. If you're having trouble getting it to work, let me know immediately. 
+            <input type="number" min=100000000 max=999999999 id="number" placeholder="your student number here">
+        </label>
+
+        <input type="submit" value="Get your constraints" >
+    </form>
+
+    <h2>Your First Media Requirement</h2>
+    <ul id="media"></ul>
+
+    <h2>Your Second Media Requirement</h2>
+    <ul id="media2"></ul>
+
+
+    
+    <script>
+
+        
+        const handleForm = event=>{
+            event.preventDefault();
+
+            let numberNode = document.getElementById("number");
+
+            let media = [
+                "Background video",
+                "Audio player",
+            ]
+            
+            let media2 = [
+                "Transition animation. You must have at least TWO different transition animations, and each should animate at least two properties separately (figure out how to do this). For each animation, the forward and backward animations should differ somehow. (For example, for a hover transition, the animation should be different for mouse enter and mouse leave.)",
+                "Keyframes animation. You must have at least TWO different keyframes animations, and they must each have at least THREE keyframes each.",
+                "Scroll animation. You must use BOTH scroll() and view()."
+            ];
+
+            // Generate random 
+            const getRandoms = (studentNumberSeed, iteration)=>{
+
+                let a = 48271;
+                let c = 0;
+                let m = Math.pow(2,31)-1;
+
+                const lcg = lcg_1 =>{
+                    return (a*lcg_1 + c)%m;
+                }
+
+                let prev = studentNumberSeed;
+
+                let randoms = [];
+
+                // prime the randoms by iterating to student number 
+                for(let i =0;i<studentNumberSeed-100000000;i++) {
+                
+                    prev = lcg(prev);
+                }
+
+                for(let i =0;i<iteration;i++) {
+                
+                    prev = lcg(prev);
+
+                    randoms.push(prev/(2147497030.0));
+                }
+
+                return randoms;
+            }
+
+            let number = numberNode.value;
+
+            // Get a random set based on student number 
+            let randoms = getRandoms(number,20);
+            //console.log(randoms);
+
+            // REQUIREMENTS
+            let randomMedia = [];
+            let numberOfMedia = 1;
+            for(let i =0;i<numberOfMedia;i++) {
+
+                let chosenMedia = media[Math.floor(randoms[i]*media.length)];
+                randomMedia.push(chosenMedia);
+
+                // remove the last chosen topic
+                media = media.filter(item=>item!=chosenMedia);
+            }
+
+            // SOFTWARE
+            let randomMedia2 = [];
+            let numberOfMedia2 = 1;
+            for(let i =0;i<numberOfMedia2;i++) {
+
+                let chosenMedia2 = media2[Math.floor(randoms[i+numberOfMedia]*media2.length)];
+
+                randomMedia2.push(chosenMedia2);
+
+                // remove the last chosen topic
+                media2 = media2.filter(item=>item!=chosenMedia2);
+            }
+
+            // RENDERING
+            let media2Container = document.getElementById("media2");
+            media2Container.innerHTML = '';
+            randomMedia2.forEach(media2=>{
+                media2Container.innerHTML += `<li>${media2}</li>`;
+            });
+
+            let mediaContainer = document.getElementById("media");
+            mediaContainer.innerHTML = '';
+            randomMedia.forEach(media=>{
+                mediaContainer.innerHTML += `<li>${media}</li>`;
+            });
+        }
+
+    </script>
+
+</body>
+</html>

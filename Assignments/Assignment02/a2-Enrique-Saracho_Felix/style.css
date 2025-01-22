@@ -1,0 +1,118 @@
+body {
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(90deg, #1a1a1a, #222);
+  color: #e0e0e0;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  animation: gradientShift 8s infinite linear;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(90deg, #1a1a1a, #222);
+  border-bottom: 1px solid #fe75fe;
+}
+
+.title {
+  font-family: "Orbitron", serif;
+  font-size: 2.5rem;
+  color: #7a04eb;
+  text-shadow: 0 0 8px #7a04eb, 0 0 12px #7a04eb;
+  margin: 5px 0;
+}
+
+.title {
+  animation: glitch 1s infinite alternate;
+}
+
+.navbar a {
+  color: #e0e0e0;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #7a04eb;
+}
+
+.home {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: url("https://via.placeholder.com/1920x1080") center/cover
+    no-repeat;
+  color: #fff;
+  text-shadow: 0 0 8px #000, 0 0 12px #000;
+}
+
+.home h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.home p {
+  font-size: 1.2rem;
+}
+
+.media {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+}
+
+.player {
+  padding-top: 2rem;
+  width: 50%;
+}
+
+.about {
+  padding: 2rem;
+  background: #151515;
+  border-top: 2px solid #444;
+  border-bottom: 2px solid #444;
+  text-align: center;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  background: #111;
+  color: #888;
+}
+
+.footer p {
+  margin: 0;
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: 2px 2px #7a04eb, -2px -2px #fe75fe;
+  }
+  50% {
+    text-shadow: -2px -2px #7a04eb, 2px 2px #fe75fe;
+  }
+  100% {
+    text-shadow: 2px 2px #7a04eb, -2px -2px #fe75fe;
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background: linear-gradient(90deg, #1a1a1a, #7a04eb);
+    background-position: 0% 50%;
+  }
+  50% {
+    background: linear-gradient(180deg, #1a1a1a, #7a04eb);
+    background-position: 50% 50%;
+  }
+  100% {
+    background: linear-gradient(270deg, #1a1a1a, #7a04eb);
+    background-position: 100% 50%;
+  }
+}
