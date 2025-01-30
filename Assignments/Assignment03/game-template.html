@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Template</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="demoCanvas" width="400" height="300"></canvas>
+
+    <script type="text/javascript">
+      let canvas = document.getElementById("demoCanvas");
+      let context = canvas.getContext("2d");
+
+      let frames = [];
+      let numOfFrames = 11;
+      let numOfFramesLoaded = 0;
+      let currentFrame = 0;
+
+      for (let i = 1; i <= numOfFrames; i++) {
+        let frame = new Image();
+        frame.src = "./camel-frames/camel-" + i + ".png";
+        frames.push(frame);
+        frame.onload = function () {
+          numOfFramesLoaded++;
+          if (numOfFramesLoaded >= numOfFrames) {
+            startGame();
+          }
+        };
+      }
+
+      let treeX = 380;
+      let cloudX = 500;
+
+      // SETUP AND INITIALIZATION OF ANIMATION AND GAME LOGIC GOES HERE
+      // startGame();
+
+      function startGame() {
+        updateGame();
+        window.requestAnimationFrame(drawGame);
+      }
+
+      function updateGame() {
+        // GAME AND ANIMATION LOGIC GOES HERE
+        currentFrame = (currentFrame + 1) % numOfFrames;
+        treeX = treeX - 4;
+        if (treeX < -20) {
+          treeX = 420;
+        }
+
+        cloudX = cloudX - 2;
+        if (cloudX < -100) {
+          cloudX = 500;
+        }
+
+        // CHANGE THE NUMBER OF MILLISECONDS TO ADJUST FRAME RATE
+        window.setTimeout(updateGame, 100);
+      }
+
+      function drawGame() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // RENDERING HAPPENS HERE
+        // Sky
+        context.fillStyle = "#87CEEB";
+        context.beginPath();
+        context.rect(0, 0, 400, 300);
+        context.fill();
+
+        // Tree
+        context.fillStyle = "#024b30";
+        context.beginPath();
+        context.ellipse(treeX, 180, 20, 60, Math.PI, 0, Math.PI * 2);
+        context.fill();
+
+        // Cloud
+        context.fillStyle = "#E0E6E9";
+        context.beginPath();
+        context.ellipse(cloudX, 75, 100, 15, 0, 0, Math.PI * 2);
+        context.fill();
+
+        // Grass
+        context.fillStyle = "#228B22";
+        context.beginPath();
+        context.rect(0, 200, 400, 100);
+        context.fill();
+
+        // Shadow
+        context.fillStyle = "rgba(0, 0, 0, 0.3)";
+        context.beginPath();
+        context.ellipse(170, 220, 65, 15, 0, 0, Math.PI * 2);
+        context.fill();
+
+        if (frames.length > 0) {
+          context.drawImage(frames[currentFrame], 100, 100); // Example: Draw first frame
+        }
+
+        window.requestAnimationFrame(drawGame);
+      }
+    </script>
+  </body>
+</html>
