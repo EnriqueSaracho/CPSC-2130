@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Template</title>
+    <style>
+      canvas {
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="demoCanvas" width="1024" height="768"></canvas>
+
+    <script type="text/javascript">
+      let canvas = document.getElementById("demoCanvas");
+      let context = canvas.getContext("2d");
+
+      // SETUP AND INITIALIZATION OF ANIMATION AND GAME LOGIC GOES HERE
+      let winterImage = new Image();
+      winterImage.src = "winter.jpg";
+
+      // Contain image data for collisions
+      let backgroundData = new Array(canvas.width);
+
+      // might take a moment to load
+      winterImage.onload = function () {
+        // this function will not be called until the image has loaded
+        // Get the pixel color data from the image and store it in an array so we can access it to check for collison
+        // Strategy: draw the image in the canvas, then use a special function to get the RGB data for each pixel
+        context.drawImage(winterImage, 0, 0);
+
+        // getImageData gets the RGB values from the canvas
+        let backgroundData_1d = context.getImageData(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        ).data;
+
+        // Get the pixel data for Every pixel, sotre it in a 2d array
+        for (let x = 0; x < canvas.width; x++) {
+          for (let y = 0; y < canvas.height; y++) {
+            // For each column in backgroundData, create a new array if one doesn't exist
+            if (backgroundData[x] == undefined) {
+              backgroundData[x] = new Array(canvas.height);
+            }
+
+            // Convert x and y coordinates into the corrent index of the 1-dimensional image data array
+            // Every pixel in the image is represented by FOUR elements in backgroundData_1d RGBA
+            let i = (y * canvas.width + x) * 4;
+
+            // Take the RGBA data from backgroundData_1d, convert it into simple 3-element array with RGB values
+            backgroundData[x][y] = [
+              backgroundData_1d[i],
+              backgroundData_1d[i + 1],
+              backgroundData_1d[i + 2],
+            ];
+          }
+        }
+
+        startGame();
+      };
+
+      class Rectangle {
+        constructor() {
+          this.x = 1;
+          this.y = 1;
+          this.width = 10;
+          this.height = 20;
+          this.color = "green";
+        }
+        render() {
+          context.fillStyle = this.color;
+          context.beginPath();
+          context.rect(this.x, this.y, this.width, this.height);
+          context.fill();
+        }
+        checkCollision() {
+          // scan all pixels covered by the rectangle to see if any are "dark pixels"
+          let collision = false;
+          for (let x = this.x; x < this.x + this.width; x++) {
+            for (let y = this.y; y < this.y + this.height; y++) {
+              // if we encounter ANY pixel in our scan tat is darker than a particular value, we'll set collision = true
+              let averageRGB =
+                (backgroundData[x][y][0] +
+                  backgroundData[x][y][1] +
+                  backgroundData[x][y][2]) /
+                3;
+
+                // check if average is lower than 
+              if (averageRGB < 100) {
+                collision = true;
+              }
+              console.log(averageRGB);  
+            }
+          }
+
+          if (collision == true) {
+            this.color = "red";
+          } else {
+            this.color = "green";
+          }
+        }
+      }
+
+      let rect = new Rectangle();
+
+      function startGame() {
+        updateGame();
+        window.requestAnimationFrame(drawGame);
+      }
+
+      function updateGame() {
+        // GAME AND ANIMATION LOGIC GOES HERE
+        rect.x = rect.x + 1;
+        rect.y = rect.y + 1;
+        rect.checkCollision();
+
+        // CHANGE THE NUMBER OF MILLISECONDS TO ADJUST FRAME RATE
+        window.setTimeout(updateGame, 100);
+      }
+
+      function drawGame() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // RENDERING HAPPENS HERE
+        context.drawImage(winterImage, 0, 0);
+        rect.render();
+
+        window.requestAnimationFrame(drawGame);
+      }
+    </script>
+  </body>
+</html>
