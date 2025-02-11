@@ -1,0 +1,9 @@
+- 45 mintes to an or
+- Resize the canvas to fit the window, might stretch the contentbecause the ration of width:height of the window is different than width:height of the canvas
+- Noting from textbook that isn't somewhere else in the canvas {widt: auto}
+- Where to put the event listener; if mouse event on canvas events genereted when mouse is hovering on canvas
+- each week equally likely to be on exam
+- point in irregular shape collision: 1:30
+	- Setup:
+		- open new copy of game-template
+		- 
