@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts here -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Game Template</title>
+
+    <style>
+      html {
+        /* Basic typography */
+        font-family: sans-serif;
+        line-height: 1.3;
+      }
+
+      body {
+        font-family: "DM Sans", serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 8rem;
+        color: rgb(226, 226, 226);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      canvas {
+        width: 100%;
+        height: 8rem;
+        position: fixed;
+        top: 0;
+        left: auto;
+        right: auto;
+        background: linear-gradient(135deg, #1a1a1a, #333);
+      }
+
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        margin-top: 8rem;
+      }
+
+      h1 {
+        font-size: 3em;
+        margin: 0;
+      }
+
+      header p {
+        margin: 0;
+      }
+
+      .instructions {
+        text-align: center;
+        padding: 2rem;
+        margin: 1rem 2rem;
+        background-color: rgb(196, 196, 196);
+      }
+
+      .instructions p {
+        margin: 0;
+      }
+
+      main {
+        /* two-column grid */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-left: 5%;
+        margin-right: 5%;
+      }
+
+      /* Use the following class to hide elements visually by allow them to be accessed by screen readers. You may want to do this if pulling some text to be used in your JavaScript animation. Code from here: https://www.a11yproject.com/posts/how-to-hide-content/ */
+      .visually-hidden {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+
+      @media screen and (max-width: 768px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Hello Digital Art!</h1>
+
+      <p class="attribution">All Content From Wikipedia</p>
+    </header>
+    <canvas id="demoCanvas" width="1280"></canvas>
+    <div class="wrapper">
+      <div class="instructions">
+        <p>
+          Use the eraser (white rectangle) in the header to remove the moving
+          rectangles!
+        </p>
+        <p>To move it use the arrow keys</p>
+      </div>
+      <main>
+        <section>
+          <h2 id="generative-art">Generative Art</h2>
+
+          <p>
+            From
+            <a href="https://en.wikipedia.org/wiki/Generative_art">Wikipedia</a>
+          </p>
+
+          <p>
+            Generative art refers to art that in whole or in part has been
+            created with the use of an autonomous system. An autonomous system
+            in this context is generally one that is non-human and can
+            independently determine features of an artwork that would otherwise
+            require decisions made directly by the artist. In some cases the
+            human creator may claim that the generative system represents their
+            own artistic idea, and in others that the system takes on the role
+            of the creator.
+          </p>
+        </section>
+
+        <section>
+          <h2 id="neural-style-transfer">Neural Style Transfer</h2>
+
+          <p>
+            From
+            <a href="https://en.wikipedia.org/wiki/Neural_style_transfer"
+              >Wikipedia</a
+            >
+          </p>
+
+          <p>
+            Neural style transfer (NST) refers to a class of software algorithms
+            that manipulate digital images, or videos, in order to adopt the
+            appearance or visual style of another image. NST algorithms are
+            characterized by their use of deep neural networks for the sake of
+            image transformation. Common uses for NST are the creation of
+            artificial artwork from photographs, for example by transferring the
+            appearance of famous paintings to user-supplied photographs. Several
+            notable mobile apps use NST techniques for this purpose, including
+            DeepArt and Prisma. This method has been used by artists and
+            designers around the globe to develop new artwork based on existent
+            style(s).
+          </p>
+        </section>
+
+        <section>
+          <h2 id="articial-intelligence-art">Artificial Intelligence Art</h2>
+
+          <p>
+            From
+            <a href="https://en.wikipedia.org/wiki/Artificial_intelligence_art"
+              >Wikipedia</a
+            >
+          </p>
+
+          <p>
+            Artificial intelligence art is any visual artwork created through
+            the use of artificial intelligence (AI) programs.
+          </p>
+
+          <p>
+            Artists began to create AI art in the mid to late-20th century, when
+            the discipline was founded. In the early 21st century, the
+            availability of AI art tools to the general public increased,
+            providing opportunities for use outside of academia and professional
+            artists. Throughout its history, artificial intelligence art has
+            raised many philosophical concerns, including those related to
+            copyright, deception and its impact on traditional artists,
+            including their incomes.
+          </p>
+        </section>
+
+        <section>
+          <h2 id="synthetic-media">Synthetic Media</h2>
+
+          <p>
+            From
+            <a href="https://en.wikipedia.org/wiki/Synthetic_media"
+              >Wikipedia</a
+            >
+          </p>
+
+          <p>
+            Synthetic media (also known as AI-generated media,[1][2] media
+            produced by generative AI,[3] personalized media, personalized
+            content,[4] and colloquially as deepfakes[5]) is a catch-all term
+            for the artificial production, manipulation, and modification of
+            data and media by automated means, especially through the use of
+            artificial intelligence algorithms, such as for the purpose of
+            misleading people or changing an original meaning.[6][7][9]
+            Synthetic media as a field has grown rapidly since the creation of
+            generative adversarial networks, primarily through the rise of
+            deepfakes as well as music synthesis, text generation, human image
+            synthesis, speech synthesis, and more.
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <script type="text/javascript">
+      var canvas = document.getElementById("demoCanvas");
+      var context = canvas.getContext("2d");
+
+      // SETUP AND INITIALIZATION OF ANIMATION AND GAME LOGIC GOES HERE
+
+      class Rectangle {
+        constructor(x, y, width, height) {
+          this.x = x;
+          this.y = y;
+          this.width = width;
+          this.height = height;
+          this.color = "gray";
+
+          this.vx = 0;
+          this.vy = width * 0.015;
+        }
+
+        render() {
+          context.fillStyle = this.color;
+          context.fillRect(this.x, this.y, this.width, this.height);
+        }
+
+        move() {
+          this.x = this.x + this.vx;
+          this.y = this.y + this.vy;
+        }
+
+        checkCollisionWithTop() {
+          if (this.y - this.height / 2 <= 0) {
+            this.vy *= -1;
+          }
+        }
+
+        checkCollisionWithBottom() {
+          if (this.y + this.height / 2 >= canvas.height) {
+            this.vy *= -1;
+          }
+        }
+
+        checkCollisionWithUser(otherX, otherY, otherWidth, otherHeight) {
+          let horizontalOverlap =
+            otherX < this.x + this.width && otherX + otherWidth > this.x;
+
+          let verticalOverlap =
+            otherY < this.y + this.height && otherY + otherHeight > this.y;
+
+          if (horizontalOverlap && verticalOverlap) {
+            this.color = "transparent";
+          }
+        }
+      }
+
+      let rectangles = [];
+      let numberOfRectangles = 20;
+
+      let maxWidth = 80;
+      let minWidth = 20;
+      let maxHeight = 20;
+      let minHeight = 10;
+
+      for (let i = 0; i < numberOfRectangles; i++) {
+        let width =
+          Math.floor(Math.random() * (maxWidth - minWidth + 1)) + minWidth;
+        let height =
+          Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
+        let x = Math.random() * canvas.width;
+        let y = Math.random() * (canvas.height - height) + height / 2;
+
+        rectangles.push(new Rectangle(x, y, width, height));
+      }
+
+      let userRectangle = new Rectangle(20, 20, 30, 30);
+      userRectangle.color = "white";
+
+      window.addEventListener("keydown", (event) => {
+        switch (event.key) {
+          case "ArrowUp":
+            if (userRectangle.y > 0) {
+              userRectangle.y = userRectangle.y - 10;
+            }
+            break;
+          case "ArrowDown":
+            if (userRectangle.y + userRectangle.height < canvas.height) {
+              userRectangle.y = userRectangle.y + 10;
+            }
+            break;
+          case "ArrowLeft":
+            if (userRectangle.x > 0) {
+              userRectangle.x = userRectangle.x - 15;
+            }
+            break;
+          case "ArrowRight":
+            if (userRectangle.x + userRectangle.width < canvas.width) {
+              userRectangle.x = userRectangle.x + 15;
+            }
+            break;
+        }
+      });
+
+      startGame();
+
+      function startGame() {
+        updateGame();
+        window.requestAnimationFrame(drawGame);
+      }
+
+      function updateGame() {
+        // GAME AND ANIMATION LOGIC GOES HERE
+        rectangles.forEach((rectangle) => {
+          rectangle.checkCollisionWithTop();
+          rectangle.checkCollisionWithBottom();
+          rectangle.checkCollisionWithUser(
+            userRectangle.x,
+            userRectangle.y,
+            userRectangle.width,
+            userRectangle.height
+          );
+          rectangle.move();
+        });
+
+        // CHANGE THE NUMBER OF MILLISECONDS TO ADJUST FRAME RATE
+        window.setTimeout(updateGame, 17);
+      }
+
+      function drawGame() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // RENDERING HAPPENS HERE
+        rectangles.forEach((rectangle) => {
+          rectangle.render();
+        });
+        userRectangle.render();
+
+        window.requestAnimationFrame(drawGame);
+      }
+    </script>
+  </body>
+</html>

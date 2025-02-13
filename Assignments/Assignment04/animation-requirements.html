@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height:1.5;
+
+            max-width:900px;
+            margin:auto;
+        }
+
+        #number {
+            display:block;
+            min-width:20rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Animation Requirements</h1>
+
+    <h2>Instructions</h2>
+
+    <form onsubmit="handleForm(event)" id="form">
+        <label>
+            Enter your student number to get your unique animation requirements! <b><u>Please take care to type your number correctly.</u></b> Your browser must be up to date in order for this application to work. If you're having trouble getting it to work, let me know immediately. 
+            <input type="number" min=100000000 max=999999999 id="number" placeholder="your student number here">
+        </label>
+
+        <input type="submit" value="Get your constraints" >
+    </form>
+
+    <h2>Event Type</h2>
+    <ul id="event"></ul>
+
+    <h2>Collision Type</h2>
+    <ul id="collision"></ul>
+
+
+    
+    <script>
+
+        
+        const handleForm = e=>{
+            e.preventDefault();
+
+            let numberNode = document.getElementById("number");
+
+            let event = [
+                "Mouse events such as: mousemove, mouseenter, mousedown, etc.",
+                "Keyboard events such as: keyup, keydown, etc.",
+            ]
+            
+            let collision = [
+                "Point in rectangle",
+                "Rectangles intersecting",
+                "Circles intersecting or distance-based (As we covered this in the lesson, the expectations for the challenge level and sophistication of your approach will be higher.)"
+                // "Point in irregular shape (using pixel data from canvas)"
+            ];
+
+            // Generate random 
+            const getRandoms = (studentNumberSeed, iteration)=>{
+
+                let a = 48271;
+                let c = 0;
+                let m = Math.pow(2,31)-1;
+
+                const lcg = lcg_1 =>{
+                    return (a*lcg_1 + c)%m;
+                }
+
+                let prev = studentNumberSeed;
+
+                let randoms = [];
+
+                // prime the randoms by iterating to student number 
+                for(let i =0;i<studentNumberSeed-100000000;i++) {
+                
+                    prev = lcg(prev);
+                }
+
+                for(let i =0;i<iteration;i++) {
+                
+                    prev = lcg(prev);
+
+                    randoms.push(prev/(2147497030.0));
+                }
+
+                return randoms;
+            }
+
+            let number = numberNode.value;
+
+            // Get a random set based on student number 
+            let randoms = getRandoms(number,20);
+            //console.log(randoms);
+
+            // REQUIREMENTS
+            let randomEvent = [];
+            let numberOfEvents = 1;
+            for(let i =0;i<numberOfEvents;i++) {
+
+                let chosenEvent = event[Math.floor(randoms[i]*event.length)];
+                randomEvent.push(chosenEvent);
+
+                // remove the last chosen topic
+                event = event.filter(item=>item!=chosenEvent);
+            }
+
+            // SOFTWARE
+            let randomCollision = [];
+            let numberOfCollision = 1;
+            for(let i =0;i<numberOfCollision;i++) {
+
+                let chosenCollision = collision[Math.floor(randoms[i+numberOfEvents]*collision.length)];
+
+                randomCollision.push(chosenCollision);
+            }
+
+            // RENDERING
+            let collisionContainer = document.getElementById("collision");
+            collisionContainer.innerHTML = '';
+            randomCollision.forEach(collision=>{
+                collisionContainer.innerHTML += `<li>${collision}</li>`;
+            });
+
+            let eventContainer = document.getElementById("event");
+            eventContainer.innerHTML = '';
+            randomEvent.forEach(event=>{
+                eventContainer.innerHTML += `<li>${event}</li>`;
+            });
+        }
+
+    </script>
+
+</body>
+</html>
