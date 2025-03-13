@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 2</title>
+  </head>
+  <body>
+    <script>
+      // load the source image
+      let sourceImage = new Image();
+      sourceImage.src = "../photographer-cat.jpg";
+
+      sourceImage.onload = () => {
+        let sourceCanvas = document.createElement("canvas");
+        let sourceContext = sourceCanvas.getContext("2d");
+
+        let filterCanvas = document.createElement("canvas");
+        let filterContext = filterCanvas.getContext("2d");
+
+        // get the image width and height
+        let w = sourceImage.width;
+        let h = sourceImage.height;
+
+        sourceCanvas.width = filterCanvas.width = w;
+        sourceCanvas.height = filterCanvas.height = h;
+
+        // Add these canvas to the page
+        document.body.append(sourceCanvas);
+        document.body.append(filterCanvas);
+
+        // Draw the source image
+        sourceContext.drawImage(sourceImage, 0, 0);
+
+        // Get the RGBA data from the source image
+        let sourceData = sourceContext.getImageData(0, 0, w, h);
+        let sourceRGBA = sourceData.data; // what is the format of this RGBA data? one-dimensional Array containing positive 8-bit integers 0 to 255
+
+        // Create a new data object for the filtered image.
+        let filterData = new ImageData(w, h);
+        let filterRGBA = filterData.data; // empty array of RGBA values
+
+        // Loop through all pixels in the source image
+        // two loops - one for the horizontal x coordinate, one for vertical y coordinate
+        for (let x = 0; x < w; x++) {
+          for (let y = 0; y < h; y++) {
+            i = (y * w + x) * 4;
+            // this i corresponds to the START index of the current pixel as (x, y)
+
+            // Get the RGBA values this pixel at (x, y)
+            let r = sourceRGBA[i]; // red
+            let g = sourceRGBA[i + 1]; /// green
+            let b = sourceRGBA[i + 2]; // blue
+            let a = sourceRGBA[i + 3]; // alpha/transparency
+
+            // Copy the RGBA values from source to filtered
+            filterRGBA[i] = r;
+            filterRGBA[i + 1] = g;
+            filterRGBA[i + 2] = b;
+            filterRGBA[i + 3] = a;
+
+            const edgeFilter = (similarity) => {
+              let j = i - w * 4;
+              let k = i - 4;
+
+              let up =
+                (sourceRGBA[j] + sourceRGBA[j + 1] + sourceRGBA[j + 2]) / 3;
+              let left =
+                (sourceRGBA[k] + sourceRGBA[k + 1] + sourceRGBA[k + 2]) / 3;
+              let avg =
+                (sourceRGBA[i] + sourceRGBA[i + 1] + sourceRGBA[i + 2]) / 3;
+
+              if (Math.abs(avg - up) > similarity && Math.abs(avg - left) > similarity) {
+                filterRGBA[i] = 0;
+                filterRGBA[i + 1] = 0;
+                filterRGBA[i + 2] = 0;
+              } else {
+                filterRGBA[i] = 255;
+                filterRGBA[i + 1] = 255;
+                filterRGBA[i + 2] = 255;
+              }
+            };
+            edgeFilter(3);
+          } //y
+        } // x
+
+        // Put the filtered RGBA data into the canvas
+        filterContext.putImageData(filterData, 0, 0);
+      };
+    </script>
+  </body>
+</html>
